@@ -2,7 +2,8 @@
 #include<string>
 #include<vector>
 #include<unordered_map>
-#include<ranges>
+//#include<ranges>vs studio2019不支持该库
+#include<algorithm>
 using namespace std;
 
 /*
@@ -248,7 +249,8 @@ public:
 
 			string sorted_s = s;
 
-			ranges::sort(sorted_s);//原地升序排序 ，需要#include<ranges> 
+			//ranges::sort(sorted_s);//原地升序排序 ，需要#include<ranges>
+			sort(sorted_s.begin(), sorted_s.end());
 
 			m[sorted_s].push_back(s); // sorted_s 相同的字符串分到同一组
 
@@ -260,17 +262,21 @@ public:
 
 		ans.reserve(m.size()); // 预分配空间
 
-		for (auto& [_, value] : m) {
-			/*
-			基于范围的结构化绑定的循环，用于遍历哈希表的键值对
-			auto&[_,value]使用结构化绑定将哈希表的每个键值对解构为两个变量，“_”为占位符变量名，表示忽略此变量（后续再使用“_”可能引发命名冲突）
-			auto&表示对哈希表的元素使用引用，避免拷贝
-			如果使用auto，即for(auto entry : m){ans.push_back(entry.second)}则每次都会把m中的元素赋值给entry后再操作
-			*/
-			//哈希表m已经分类好了，所以这一步就是把哈希表的每个头结点装进vector<vector<string>>类型的vector数组了 
-			ans.push_back(value);
+		//for (auto& [_, value] : m) {
+		//	/*
+		//	基于范围的结构化绑定的循环，用于遍历哈希表的键值对
+		//	auto&[_,value]使用结构化绑定将哈希表的每个键值对解构为两个变量，“_”为占位符变量名，表示忽略此变量（后续再使用“_”可能引发命名冲突）
+		//	auto&表示对哈希表的元素使用引用，避免拷贝
+		//	如果使用auto，即for(auto entry : m){ans.push_back(entry.second)}则每次都会把m中的元素赋值给entry后再操作
+		//	*/
+		//	//哈希表m已经分类好了，所以这一步就是把哈希表的每个头结点装进vector<vector<string>>类型的vector数组了 
+		//	ans.push_back(value);
 
+		//}
+		for (auto& entry : m) {
+			ans.push_back(entry.second);
 		}
+
 
 		return ans;
 
